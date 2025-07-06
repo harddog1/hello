@@ -1,7 +1,7 @@
 {
   "name": "hello",
   "short_name": "hello",
-  "start_url": ".",
+  "start_url": "https://harddog1.github.io/hello",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
