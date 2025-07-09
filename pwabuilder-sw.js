@@ -31,7 +31,6 @@ if (workbox.navigationPreload.isSupported()) {
 }
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
         const preloadResp = await event.preloadResponse;
@@ -49,5 +48,4 @@ self.addEventListener('fetch', (event) => {
         return cachedResp;
       }
     })());
-  }
 });
