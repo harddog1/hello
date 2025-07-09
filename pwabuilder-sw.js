@@ -7,11 +7,11 @@ const CACHE = "hello";
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 // const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = [
-  "index.html",
-  "a.html",
-  "b.html",
-  "index.css",
-  "index.js"
+  "https://harddog1.github.io/hello/index.html",
+  "https://harddog1.github.io/hello/a.html",
+  "https://harddog1.github.io/hello/b.html",
+  "https://harddog1.github.io/hello/index.css",
+  "https://harddog1.github.io/hello/index.js"
 ];
 
 var contentToCache = offlineFallbackPage;
