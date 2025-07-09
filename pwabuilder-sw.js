@@ -1,13 +1,20 @@
-var cacheName = "hello"
-var appShellFiles = [
-    "https://harddog1.github.io/hello/index.html",
-    "https://harddog1.github.io/hello/a.html",
-    "https://harddog1.github.io/hello/b.html",
-    "https://harddog1.github.io/hello/index.css",
-    "https://harddog1.github.io/hello/index.js",
+// This is the "Offline page" service worker
+
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+
+const CACHE = "pwabuilder-page";
+
+// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
+// const offlineFallbackPage = "offline.html";
+const offlineFallbackPage = [
+  "index.html",
+  "a.html",
+  "b.html",
+  "index.css",
+  "index.js"
 ];
 
-var contentToCache = appShellFiles;
+var contentToCache = offlineFallbackPage;
 
 self.addEventListener("install", function (e) {
   console.log("[Service Worker] Install");
