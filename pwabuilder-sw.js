@@ -1,51 +1,40 @@
-// This is the "Offline page" service worker
-
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-
-const CACHE = "hello";
-
-// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = [
-  "https://harddog1.github.io/hello/index.html",
-  "https://harddog1.github.io/hello/a.html",
-  "https://harddog1.github.io/hello/b.html",
-  "https://harddog1.github.io/hello/index.css",
-  "https://harddog1.github.io/hello/index.js"
+var cacheName = "hello"
+var appShellFiles = [
+    "https://harddog1.github.io/hello/index.html",
+    "https://harddog1.github.io/hello/a.html",
+    "https://harddog1.github.io/hello/b.html",
+    "https://harddog1.github.io/hello/index.css",
+    "https://harddog1.github.io/hello/index.js",
 ];
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
+var contentToCache = appShellFiles;
 
-self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
+self.addEventListener("install", function (e) {
+  console.log("[Service Worker] Install");
+  e.waitUntil(
+    caches.open(cacheName).then(function (cache) {
+      console.log("[Service Worker] Caching all: app shell and content");
+      return cache.addAll(contentToCache);
+    }),
   );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
-self.addEventListener('fetch', (event) => {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
-
-        if (preloadResp) {
-          return preloadResp;
-        }
-
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
+self.addEventListener("fetch", function (e) {
+  e.respondWith(
+    caches.match(e.request).then(function (r) {
+      console.log("[Service Worker] Fetching resource: " + e.request.url);
+      return (
+        r ||
+        fetch(e.request).then(function (response) {
+          return caches.open(cacheName).then(function (cache) {
+            console.log(
+              "[Service Worker] Caching new resource: " + e.request.url,
+            );
+            cache.put(e.request, response.clone());
+            return response;
+          });
+        })
+      );
+    }),
+  );
 });
