@@ -1,54 +1,40 @@
-// 서비스워커 sw.js
-
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-
-const CACHE = "pwabuilder-page-v1";
-const offlineFiles = [
-  "https://harddog1.github.io/hello/index.html",
-  "https://harddog1.github.io/hello/a.html",
-  "https://harddog1.github.io/hello/b.html",
-  "https://harddog1.github.io/hello/index.css",
-  "https://harddog1.github.io/hello/index.js"
+var cacheName = "hello"
+var appShellFiles = [
+    "https://harddog1.github.io/hello/index.html",
+    "https://harddog1.github.io/hello/a.html",
+    "https://harddog1.github.io/hello/b.html",
+    "https://harddog1.github.io/hello/index.css",
+    "https://harddog1.github.io/hello/index.js",
 ];
 
-// 서비스워커 즉시 활성화용
-// self.addEventListener("message", (event) => {
-//   if (event.data && event.data.type === "SKIP_WAITING") {
-//     self.skipWaiting();
-//   }
-// });
+var contentToCache = appShellFiles;
 
-// 설치 시 캐시
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((cache) => {
-      return cache.addAll(offlineFiles);
-    })
+self.addEventListener("install", function (e) {
+  console.log("[Service Worker] Install");
+  e.waitUntil(
+    caches.open(cacheName).then(function (cache) {
+      console.log("[Service Worker] Caching all: app shell and content");
+      return cache.addAll(contentToCache);
+    }),
   );
 });
 
-// 서비스워커 즉시 활성화 (기존 것 교체)
-// self.addEventListener('activate', (event) => {
-//   event.waitUntil(self.clients.claim());
-// });
-
-// fetch 이벤트 모든 요청 처리
-self.addEventListener('fetch', (event) => {
-  event.respondWith((async () => {
-    try {
-      // 네트워크 우선 시도
-      const networkResp = await fetch(event.request);
-      return networkResp;
-    } catch (error) {
-      // 실패 시 캐시된 파일 제공
-      const cache = await caches.open(CACHE);
-      const cachedResp = await cache.match(event.request);
-      if (cachedResp) {
-        return cachedResp;
-      }
-
-      // 그래도 없으면 index.html fallback 제공 (안전장치)
-      return cache.match("/hello/index.html");
-    }
-  })());
+self.addEventListener("fetch", function (e) {
+  e.respondWith(
+    caches.match(e.request).then(function (r) {
+      console.log("[Service Worker] Fetching resource: " + e.request.url);
+      return (
+        r ||
+        fetch(e.request).then(function (response) {
+          return caches.open(cacheName).then(function (cache) {
+            console.log(
+              "[Service Worker] Caching new resource: " + e.request.url,
+            );
+            cache.put(e.request, response.clone());
+            return response;
+          });
+        })
+      );
+    }),
+  );
 });
