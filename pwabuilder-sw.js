@@ -12,11 +12,11 @@ const offlineFiles = [
 ];
 
 // 서비스워커 즉시 활성화용
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
+// self.addEventListener("message", (event) => {
+//   if (event.data && event.data.type === "SKIP_WAITING") {
+//     self.skipWaiting();
+//   }
+// });
 
 // 설치 시 캐시
 self.addEventListener('install', (event) => {
@@ -28,9 +28,9 @@ self.addEventListener('install', (event) => {
 });
 
 // 서비스워커 즉시 활성화 (기존 것 교체)
-self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
-});
+// self.addEventListener('activate', (event) => {
+//   event.waitUntil(self.clients.claim());
+// });
 
 // fetch 이벤트 모든 요청 처리
 self.addEventListener('fetch', (event) => {
