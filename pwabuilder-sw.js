@@ -3,8 +3,8 @@
 const CACHE = "pwabuilder-page-v1";
 const offlineFiles = [
   "index.html",
-  // "a.html",
-  // "b.html",
+  "a.html",
+  "b.html",
   "index.css",
   "index.js"
 ];
