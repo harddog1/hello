@@ -2,11 +2,11 @@
 
 const CACHE = "pwabuilder-page-v1";
 const offlineFiles = [
-  "https://harddog1.github.io/hello/index.html",
-  "https://harddog1.github.io/hello/a.html",
-  "https://harddog1.github.io/hello/b.html",
-  "https://harddog1.github.io/hello/index.css",
-  "https://harddog1.github.io/hello/index.js"
+  "index.html",
+  "a.html",
+  "b.html",
+  "index.css",
+  "index.js"
 ];
 
 // 설치 시 캐시
