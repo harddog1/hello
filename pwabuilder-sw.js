@@ -15,7 +15,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(async () => {
+    event.respondWith((async () => {
         try {
             let networkresp = await fetch(event.request);
             return networkresp;
@@ -24,5 +24,5 @@ self.addEventListener('fetch', (event) => {
             let cachedresp = await cache.match(event.request);
             return cachedresp;
         }
-    });
+    })());
 });
