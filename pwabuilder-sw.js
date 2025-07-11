@@ -5,6 +5,7 @@ let cachefiles = [
     "b.html",
     "index.css",
     "index.js",
+    "icons/icon-192.png",
 ];
 
 self.addEventListener('install', (event) => {
