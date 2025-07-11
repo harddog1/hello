@@ -7,6 +7,7 @@ const offlineFiles = [
   "b.html",
   "index.css",
   "index.js"
+  "icons/icon-192.png",
 ];
 
 // 설치 시 캐시
