@@ -1,5 +1,5 @@
-let cachename = "hello";
-let cachefiles = [
+const cachename = "hello";
+const cachefiles = [
     "index.html",
     "a.html",
     "b.html",
