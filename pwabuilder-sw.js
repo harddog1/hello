@@ -25,6 +25,7 @@ self.addEventListener('fetch', (event) => {
             if (cachedresp) {
                 return cachedresp;
             }
+            return cache.match("/hello/index.html");
         }
     })());
 });
