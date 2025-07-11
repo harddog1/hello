@@ -5,7 +5,6 @@ let cachefiles = [
     "b.html",
     "index.css",
     "index.js",
-    "icons/icon-192.png",
 ];
 
 self.addEventListener('install', (event) => {
@@ -15,13 +14,13 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(function() {
+    event.respondWith(async () => {
         try {
-            let networkresp = fetch(event.request);
+            let networkresp = await fetch(event.request);
             return networkresp;
         } catch (error) {
-            let cache = caches.open(cachename);
-            let cachedresp = cache.match(event.request);
+            let cache = await caches.open(cachename);
+            let cachedresp = await cache.match(event.request);
             return cachedresp;
         }
     });
