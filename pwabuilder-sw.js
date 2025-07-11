@@ -8,21 +8,21 @@ const FILES_TO_CACHE = [
   "icons/icon-192.png",
 ];
 
-// 설치 이벤트: 캐시 저장
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
-  );
+    event.waitUntil(caches.open(cachename).then((cache) => {
+        return cache.addAll(cachefiles);
+    }));
 });
 
-// fetch 이벤트: 캐시 → 네트워크 순으로 응답
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // 캐시 있으면 캐시 응답, 없으면 네트워크 요청
-      return cachedResponse || fetch(event.request);
-    })
-  );
+    event.respondWith(function() {
+        try {
+            let networkresp = fetch(event.request);
+            return networkresp;
+        } catch (error) {
+            let cache = caches.open(cachename);
+            let cachedresp = cache.match(event.request);
+            return cachedresp;
+        }
+    });
 });
