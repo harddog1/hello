@@ -22,7 +22,9 @@ self.addEventListener('fetch', (event) => {
         } catch (error) {
             let cache = await caches.open(cachename);
             let cachedresp = await cache.match(event.request);
-            return cachedresp;
+            if (cachedresp) {
+                return cachedresp;
+            }
         }
     })());
 });
