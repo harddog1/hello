@@ -6,7 +6,7 @@ const offlineFiles = [
   "a.html",
   "b.html",
   "index.css",
-  "index.js"
+  "index.js",
   "icons/icon-192.png",
 ];
 
