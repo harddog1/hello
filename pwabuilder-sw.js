@@ -21,8 +21,9 @@ self.addEventListener('fetch', (event) => {
             return networkresp;
         } catch (error) {
             const cache = await caches.open(cachename);
-            const cachedresp = await cache.match(cachefiles);
-            return cachedresp;
+            const cachedresp = await cache.match(event.request);
+            if (cachedresp ) return cachedresp;
+            return cache.match("index.html");
         }
     })());
 });
