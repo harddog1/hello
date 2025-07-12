@@ -15,17 +15,14 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith((async () => {
+    event.respondWith(function() {
         try {
-            const networkresp = await fetch(event.request);
+            const networkresp = fetch(event.request);
             return networkresp;
         } catch (error) {
-            const cache = await caches.open(cachename);
-            const cachedresp = await cache.match(event.request);
-            if (cachedresp) {
-                return cachedresp;
-            }
-            return cache.match("/hello/index.html");
+            const cache = caches.open(cachename);
+            const cachedresp = cache.match(cachefiles);
+            return cachedresp;
         }
-    })());
+    });
 });
