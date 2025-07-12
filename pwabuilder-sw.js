@@ -22,7 +22,7 @@ self.addEventListener('fetch', (event) => {
         } catch (error) {
             const cache = await caches.open(cachename);
             const cachedresp = await cache.match(event.request);
-            if (cachedresp ) return cachedresp;
+            if (cachedresp) return cachedresp;
             return await cache.match("index.html");
         }
     })());
