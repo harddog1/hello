@@ -10,7 +10,7 @@ const cachefiles = [
 ];
 
 self.addEventListener('install', (event) => {
-    event.untilWait((async() => {
+    event.waitUntil((async() => {
         const cache = caches.open(cachename);
         return cache.addAll(cachefiles);
     })());
