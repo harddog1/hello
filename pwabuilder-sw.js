@@ -17,11 +17,11 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
     event.respondWith((async() => {
         try {
-            const networkresp = fetch(event.request);
+            const networkresp = await fetch(event.request);
             return networkresp;
         } catch (error) {
-            const cache = caches.open(cachename);
-            const cachedresp = cache.match(cachefiles);
+            const cache = await caches.open(cachename);
+            const cachedresp = await cache.match(cachefiles);
             return cachedresp;
         }
     })());
