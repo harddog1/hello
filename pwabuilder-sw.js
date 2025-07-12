@@ -15,7 +15,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(function() {
+    event.respondWith(async() => {
         try {
             const networkresp = fetch(event.request);
             return networkresp;
