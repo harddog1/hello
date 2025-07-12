@@ -11,8 +11,8 @@ const cachefiles = [
 
 self.addEventListener('install', (event) => {
     event.waitUntil((async() => {
-        const cache = caches.open(cachename);
-        return cache.addAll(cachefiles);
+        const cache = await caches.open(cachename);
+        return await cache.addAll(cachefiles);
     })());
 });
 
