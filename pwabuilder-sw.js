@@ -15,7 +15,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(async() => {
+    event.respondWith((async() => {
         try {
             const networkresp = fetch(event.request);
             return networkresp;
@@ -24,5 +24,5 @@ self.addEventListener('fetch', (event) => {
             const cachedresp = cache.match(cachefiles);
             return cachedresp;
         }
-    });
+    })());
 });
