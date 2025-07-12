@@ -6,12 +6,14 @@ const cachefiles = [
     "index.css",
     "index.js",
     "icons/icon-192.png",
+    "icons/icon-512.png",
 ];
 
 self.addEventListener('install', (event) => {
-    event.waitUntil(caches.open(cachename).then((cache) => {
+    event.untilWait((async() => {
+        const cache = caches.open(cachename);
         return cache.addAll(cachefiles);
-    }));
+    })());
 });
 
 self.addEventListener('fetch', (event) => {
